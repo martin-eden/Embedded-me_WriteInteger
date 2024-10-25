@@ -2,14 +2,14 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-23
+  Last mod.: 2024-10-25
 */
 
 #include <me_BaseTypes.h>
 #include <me_MemorySegment.h>
 #include <me_ManagedMemory.h>
 
-#include <stdarg.h> // "va_list" for free free function Format()
+#include <stdarg.h> // "va_list" for free function Format()
 
 namespace me_String
 {
