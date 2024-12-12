@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-23
+  Last mod.: 2024-12-12
 */
 
 #include "me_String.h"
@@ -21,7 +21,7 @@
 */
 TBool me_String::Freetown::FormatStr(
   me_ManagedMemory::TManagedMemory * ResultSeg,
-  const TChar * FormatStr,
+  const TAsciiz FormatStr,
   va_list Args
 )
 {
@@ -78,7 +78,7 @@ TBool me_String::Freetown::FormatStr(
   */
   ReturnCode =
     vsnprintf(
-      (TChar *) Asciiz.GetData().Addr,
+      (char *) Asciiz.GetData().Addr,
       Asciiz.GetSize(),
       FormatStr,
       Args
@@ -121,7 +121,7 @@ TBool IsDigit(TUint_1 Value)
 
   For bad input returns "?" character.
 */
-TChar DigToChar(TUint_1 Digit)
+TUint_1 DigToAscii(TUint_1 Digit)
 {
   if (!IsDigit(Digit))
     return '?';
@@ -156,7 +156,7 @@ void me_String::Freetown::FormatUint_4(
 
   // Initially fill Result with "0" characters
   for (TUint_1 Offset = 0; Offset < Result.Size; ++Offset)
-    Result.Bytes[Offset] = DigToChar(0);
+    Result.Bytes[Offset] = DigToAscii(0);
 
   // Write digits from least to most significant
   TUint_1 Offset = Result.Size - 1;
@@ -164,7 +164,7 @@ void me_String::Freetown::FormatUint_4(
   {
     TUint_1 LastDigit = Value % 10;
 
-    Result.Bytes[Offset] = DigToChar(LastDigit);
+    Result.Bytes[Offset] = DigToAscii(LastDigit);
 
     Value = Value / 10;
 
@@ -200,7 +200,7 @@ void me_String::Freetown::FormatSint_4(
 
   FormatUint_4(Result, Uint_4_Value);
 
-  TChar SignChar;
+  TUnit SignChar;
   if (IsNegative)
     SignChar = '-';
   else

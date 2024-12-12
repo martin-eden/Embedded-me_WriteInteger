@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-25
+  Last mod.: 2024-12-12
 */
 
 #include <me_BaseTypes.h>
@@ -22,12 +22,12 @@ namespace me_String
       // Copy from memory segment
       TBool CopyFrom(me_MemorySegment::TMemorySegment Memseg);
       // Copy from ASCIIZ
-      TBool CopyFrom(const TChar * Asciiz);
+      TBool CopyFrom(const TAsciiz Asciiz);
       // Copy from our specie
       TBool CopyFrom(TString String);
 
       // Format string
-      TBool Format(const TChar * FormatStr, ...);
+      TBool Format(const TAsciiz FormatStr, ...);
 
     private:
       me_ManagedMemory::TManagedMemory Data;
@@ -38,7 +38,7 @@ namespace me_String
     // Format string
     TBool FormatStr(
       me_ManagedMemory::TManagedMemory * Result,
-      const TChar * FormatStr,
+      const TAsciiz FormatStr,
       va_list Args
     );
 

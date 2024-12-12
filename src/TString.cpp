@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-10-17
+  Last mod.: 2024-12-12
 */
 
 #include "me_String.h"
@@ -32,7 +32,7 @@ TBool TString::CopyFrom(
 
 // Copy from ASCIIZ
 TBool TString::CopyFrom(
-  const TChar * Asciiz
+  const TAsciiz Asciiz
 )
 {
   return Data.LoadFrom(Asciiz);
@@ -52,7 +52,7 @@ TBool TString::CopyFrom(
   Using string with printf() format specifiers.
 */
 TBool TString::Format(
-  const TChar * FormatStr,
+  const TAsciiz FormatStr,
   ...
 )
 {
