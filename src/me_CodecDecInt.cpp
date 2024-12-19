@@ -5,13 +5,6 @@
   Last mod.: 2024-12-19
 */
 
-#include <me_CodecDecInt.h>
-
-using namespace me_CodecDecInt;
-
-using
-  me_MemorySegment::TMemorySegment;
-
 /*
   All integer formatting functions represent number as fixed-length
   string with leading zeroes.
@@ -20,43 +13,18 @@ using
   leading sign. Sign of zero is considered "+".
 */
 
-/*
-  Check that given number falls in decimal digits range [0, 9]
-*/
-TBool IsDigit(TUint_1 Value)
-{
-  return (Value <= 9);
-}
+#include <me_CodecDecInt.h>
 
-/*
-  Return ASCII value for digit
+#include <me_WorkMemory.h>
+#include <me_SegmentProcessor.h>
 
-  For bad input returns "?" character.
-*/
-TUint_1 DigToAscii(TUint_1 Digit)
-{
-  if (!IsDigit(Digit))
-    return '?';
+using namespace me_CodecDecInt;
 
-  return ('0' + Digit); // <3 U C
-}
+using
+  me_MemorySegment::TMemorySegment;
 
-/*
-  TUint_4 to ASCII
+// ( Deprecated
 
-  Zeroes padding.
-
-  Arguments
-
-    TMemorySegment Result
-
-      We will write characters here. Segment should describe
-      valid memory to which we can write.
-
-    TUint_4 Value
-
-      Value we're representing
-*/
 void me_CodecDecInt::FormatUint_4(
   TMemorySegment Result,
   TUint_4 Value
@@ -68,7 +36,7 @@ void me_CodecDecInt::FormatUint_4(
 
   // Initially fill Result with "0" characters
   for (TUint_1 Offset = 0; Offset < Result.Size; ++Offset)
-    Result.Bytes[Offset] = DigToAscii(0);
+    Result.Bytes[Offset] = Freetown::DigToAscii(0);
 
   // Write digits from least to most significant
   TUint_1 Offset = Result.Size - 1;
@@ -76,7 +44,7 @@ void me_CodecDecInt::FormatUint_4(
   {
     TUint_1 LastDigit = Value % 10;
 
-    Result.Bytes[Offset] = DigToAscii(LastDigit);
+    Result.Bytes[Offset] = Freetown::DigToAscii(LastDigit);
 
     Value = Value / 10;
 
@@ -88,11 +56,6 @@ void me_CodecDecInt::FormatUint_4(
   }
 }
 
-/*
-  TSint_4 to ASCII
-
-  Zeroes padding, "+"/"-" sign. Zero has sign "+".
-*/
 void me_CodecDecInt::FormatSint_4(
   TMemorySegment Result,
   TSint_4 Value
@@ -119,6 +82,38 @@ void me_CodecDecInt::FormatSint_4(
     SignChar = '+';
 
   Result.Bytes[0] = SignChar;
+}
+
+// ) Deprecated
+
+TBool me_CodecDecInt::Encode(TUint_1 Value, TOperation Op_PutByte)
+{
+  return Freetown::Encode_U4((TUint_4) Value, 3, Op_PutByte);
+}
+
+TBool me_CodecDecInt::Encode(TUint_2 Value, TOperation Op_PutByte)
+{
+  return Freetown::Encode_U4((TUint_4) Value, 5, Op_PutByte);
+}
+
+TBool me_CodecDecInt::Encode(TUint_4 Value, TOperation Op_PutByte)
+{
+  return Freetown::Encode_U4((TUint_4) Value, 10, Op_PutByte);
+}
+
+TBool me_CodecDecInt::Encode(TSint_1 Value, TOperation Op_PutByte)
+{
+  return Freetown::Encode_S4((TSint_4) Value, 4, Op_PutByte);
+}
+
+TBool me_CodecDecInt::Encode(TSint_2 Value, TOperation Op_PutByte)
+{
+  return Freetown::Encode_S4((TSint_4) Value, 6, Op_PutByte);
+}
+
+TBool me_CodecDecInt::Encode(TSint_4 Value, TOperation Op_PutByte)
+{
+  return Freetown::Encode_S4((TSint_4) Value, 11, Op_PutByte);
 }
 
 /*

@@ -30,37 +30,58 @@ void loop()
 
 void RunTest()
 {
+  using
+    me_CodecDecInt::Encode;
+
+  Console.Print("* Encoding integers");
+
+  Console.Indent();
+
   {
-    Console.Indent();
-    Console.Print("* Formatting integers");
+    TUint_1 Value = 12;
 
-    {
-      Console.Indent();
-
-      using
-        me_MemorySegment::TMemorySegment,
-        me_MemorySegment::Freetown::FromAddrSize,
-        me_CodecDecInt::FormatUint_4,
-        me_CodecDecInt::FormatSint_4;
-
-      TUint_1 BufferSize = 20;
-      TUint_1 Buffer[BufferSize];
-      TMemorySegment BuffSeg = FromAddrSize((TUint_2) &Buffer, BufferSize);
-
-      FormatUint_4(BuffSeg, 123);
-      Console.Print(BuffSeg);
-
-      FormatSint_4(BuffSeg, (TSint_4) 0x80000000);
-      Console.Print(BuffSeg);
-
-      FormatUint_4(BuffSeg, (TUint_4) 0x80000000);
-      Console.Print(BuffSeg);
-
-      Console.Unindent();
-    }
-
-    Console.Unindent();
+    Console.Write("TUint_1 ");
+    Encode(Value, me_Uart::Op_PutByte);
+    Console.EndLine();
   }
+  {
+    TUint_2 Value = 12;
+
+    Console.Write("TUint_2 ");
+    Encode(Value, me_Uart::Op_PutByte);
+    Console.EndLine();
+  }
+  {
+    TUint_4 Value = 12;
+
+    Console.Write("TUint_4 ");
+    Encode(Value, me_Uart::Op_PutByte);
+    Console.EndLine();
+  }
+
+  {
+    TSint_1 Value = -12;
+
+    Console.Write("TSint_1 ");
+    Encode(Value, me_Uart::Op_PutByte);
+    Console.EndLine();
+  }
+  {
+    TSint_2 Value = -12;
+
+    Console.Write("TSint_2 ");
+    Encode(Value, me_Uart::Op_PutByte);
+    Console.EndLine();
+  }
+  {
+    TSint_4 Value = -12;
+
+    Console.Write("TSint_4 ");
+    Encode(Value, me_Uart::Op_PutByte);
+    Console.EndLine();
+  }
+
+  Console.Unindent();
 }
 
 /*
