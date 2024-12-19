@@ -29,8 +29,6 @@ void loop()
 
 void RunTest()
 {
-  me_String::TString String;
-
   {
     Console.Indent();
     Console.Print("* Formatting integers");

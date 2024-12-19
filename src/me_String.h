@@ -11,23 +11,6 @@
 
 namespace me_String
 {
-  class TString
-  {
-    public:
-      // Return our data span
-      me_MemorySegment::TMemorySegment GetData();
-
-      // Copy from memory segment
-      TBool CopyFrom(me_MemorySegment::TMemorySegment Memseg);
-      // Copy from ASCIIZ
-      TBool CopyFrom(const TAsciiz Asciiz);
-      // Copy from our specie
-      TBool CopyFrom(TString String);
-
-    private:
-      me_ManagedMemory::TManagedMemory Data;
-  };
-
   namespace Freetown
   {
     // Format TUint_4 in given length with zero padding
