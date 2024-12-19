@@ -39,8 +39,8 @@ void RunTest()
       using
         me_MemorySegment::TMemorySegment,
         me_MemorySegment::Freetown::FromAddrSize,
-        me_String::Freetown::FormatUint_4,
-        me_String::Freetown::FormatSint_4;
+        me_String::FormatUint_4,
+        me_String::FormatSint_4;
 
       TUint_1 BufferSize = 20;
       TUint_1 Buffer[BufferSize];

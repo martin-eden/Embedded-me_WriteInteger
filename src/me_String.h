@@ -11,20 +11,17 @@
 
 namespace me_String
 {
-  namespace Freetown
-  {
-    // Format TUint_4 in given length with zero padding
-    void FormatUint_4(
-      me_MemorySegment::TMemorySegment Result,
-      TUint_4 Value
-    );
+  // Format TUint_4 in given length with zero padding
+  void FormatUint_4(
+    me_MemorySegment::TMemorySegment Result,
+    TUint_4 Value
+  );
 
-    // Format TSint_4 in given length with sign and zero padding
-    void FormatSint_4(
-      me_MemorySegment::TMemorySegment Result,
-      TSint_4 Value
-    );
-  }
+  // Format TSint_4 in given length with zero padding and sign
+  void FormatSint_4(
+    me_MemorySegment::TMemorySegment Result,
+    TSint_4 Value
+  );
 }
 
 /*

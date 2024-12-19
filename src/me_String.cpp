@@ -57,7 +57,7 @@ TUint_1 DigToAscii(TUint_1 Digit)
 
       Value we're representing
 */
-void me_String::Freetown::FormatUint_4(
+void me_String::FormatUint_4(
   TMemorySegment Result,
   TUint_4 Value
 )
@@ -93,7 +93,7 @@ void me_String::Freetown::FormatUint_4(
 
   Zeroes padding, "+"/"-" sign. Zero has sign "+".
 */
-void me_String::Freetown::FormatSint_4(
+void me_String::FormatSint_4(
   TMemorySegment Result,
   TSint_4 Value
 )
