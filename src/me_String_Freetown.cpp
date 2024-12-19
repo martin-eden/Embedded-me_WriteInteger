@@ -2,110 +2,22 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-19
 */
 
-#include "me_String.h"
+#include <me_String.h>
 
-#include <me_BaseTypes.h>
-#include <me_ManagedMemory.h>
-#include <me_MemorySegment.h> // TMemorySegment
+using namespace me_String;
 
-#include <stdarg.h> // va_list, va_start, va_end
-#include <stdio.h> // vsnprintf()
-
-/*
-  Format string
-
-  Implementation uses vsnprintf().
-*/
-TBool me_String::Freetown::FormatStr(
-  me_ManagedMemory::TManagedMemory * ResultSeg,
-  const TAsciiz FormatStr,
-  va_list Args
-)
-{
-  /*
-    Implementation will use vsnprintf() from <stdio.h>.
-
-    That fancy function accepts TUint_2 as buffer capacity.
-    And returns length of formatted string in TSint_2.. Fuck you C!
-
-    Anyway.. We don't know how long final string will be.
-    We can obligate you to estimate buffer size. But we won't.
-    Because you can't too.
-
-    Instead we will do two calls to vsnprintf(). First with empty
-    buffer just to get length of formatted string. Then we'll
-    allocate memory and do the real call.
-
-    And that's not all!
-
-    Our buffer don't need trailing zero byte from so-called "string".
-    So we'll do another memory allocation to copy that chunk without
-    zero byte. 2*N memory consumption at runtime..
-
-    Great API design guys!
-  */
-
-  // Return code from vsnprintf()
-  TSint_2 ReturnCode = vsnprintf(0, 0, FormatStr, Args);
-
-  // If vsnprintf() failed, return
-  if (ReturnCode < 0)
-    return false;
-
-  // Assert: ReturnCode >= 0
-
-  // Positive return code is theoretical result string length
-  TUint_2 MemoryRequired = (TUint_2) ReturnCode;
-
-  /*
-    Okay, let's allocate memory and do _real_ call!
-  */
-
-  me_ManagedMemory::TManagedMemory Asciiz;
-
-  // If no memory for ASCIIZ, return
-  // ASCIIZ requires one more byte for tail
-  if (!Asciiz.ResizeTo(MemoryRequired + 1))
-    return false;
-
-  /*
-    We don't expect 2nd call to fail. It's same format string
-    and arguments. Only buffer address and buffer size are changed.
-    But we still check for error code and return if bad.
-  */
-  ReturnCode =
-    vsnprintf(
-      (char *) Asciiz.GetData().Addr,
-      Asciiz.GetSize(),
-      FormatStr,
-      Args
-    );
-
-  if (ReturnCode < 0)
-    return false;
-
-  // Finally! But if no memory for <Data>, return
-  if (!ResultSeg->LoadFrom(&Asciiz))
-    return false;
-
-  // Assert: ResultSeg.Size >= 1
-
-  // Trim tail zero byte from ASCIIZ
-  if (!ResultSeg->ResizeTo(ResultSeg->GetSize() - 1))
-    return false;
-
-  return true;
-}
+using
+  me_MemorySegment::TMemorySegment;
 
 /*
   All integer formatting functions represent number as fixed-length
   string with leading zeroes.
 
   All signed integer formatting functions represent number with
-  leading sign. Sign of zero considered "+".
+  leading sign. Sign of zero is considered "+".
 */
 
 /*
@@ -146,7 +58,7 @@ TUint_1 DigToAscii(TUint_1 Digit)
       Value we're representing
 */
 void me_String::Freetown::FormatUint_4(
-  me_MemorySegment::TMemorySegment Result,
+  TMemorySegment Result,
   TUint_4 Value
 )
 {
@@ -182,7 +94,7 @@ void me_String::Freetown::FormatUint_4(
   Zeroes padding, "+"/"-" sign. Zero has sign "+".
 */
 void me_String::Freetown::FormatSint_4(
-  me_MemorySegment::TMemorySegment Result,
+  TMemorySegment Result,
   TSint_4 Value
 )
 {
@@ -210,8 +122,6 @@ void me_String::Freetown::FormatSint_4(
 }
 
 /*
-  2024-10-04
-  2024-10-07
-  2024-10-08
-  2024-10-17 Simplification
+  2024-10 # # # #
+  2024-12-19
 */

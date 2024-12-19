@@ -2,14 +2,12 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-19
 */
 
 #include <me_BaseTypes.h>
 #include <me_MemorySegment.h>
 #include <me_ManagedMemory.h>
-
-#include <stdarg.h> // "va_list" for free function Format()
 
 namespace me_String
 {
@@ -26,22 +24,12 @@ namespace me_String
       // Copy from our specie
       TBool CopyFrom(TString String);
 
-      // Format string
-      TBool Format(const TAsciiz FormatStr, ...);
-
     private:
       me_ManagedMemory::TManagedMemory Data;
   };
 
   namespace Freetown
   {
-    // Format string
-    TBool FormatStr(
-      me_ManagedMemory::TManagedMemory * Result,
-      const TAsciiz FormatStr,
-      va_list Args
-    );
-
     // Format TUint_4 in given length with zero padding
     void FormatUint_4(
       me_MemorySegment::TMemorySegment Result,
@@ -57,8 +45,6 @@ namespace me_String
 }
 
 /*
-  2024-10-04
-  2024-10-07
-  2024-10-08
-  2024-10-17
+  2024-10 # # # #
+  2024-12-19
 */

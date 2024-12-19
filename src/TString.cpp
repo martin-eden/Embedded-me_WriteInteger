@@ -2,29 +2,27 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-19
 */
 
-#include "me_String.h"
-
-#include <me_BaseTypes.h>
-#include <me_ManagedMemory.h>
-#include <me_MemorySegment.h> // TMemorySegment
-#include <stdarg.h> // va_list, va_start, va_end for Format()
+#include <me_String.h>
 
 using namespace me_String;
+
+using
+  me_MemorySegment::TMemorySegment;
 
 /*
   Return our data span
 */
-me_MemorySegment::TMemorySegment TString::GetData()
+TMemorySegment TString::GetData()
 {
   return Data.GetData();
 }
 
 // Copy from memory segment
 TBool TString::CopyFrom(
-  me_MemorySegment::TMemorySegment Memseg
+  TMemorySegment Memseg
 )
 {
   return Data.LoadFrom(Memseg);
@@ -47,28 +45,6 @@ TBool TString::CopyFrom(
 }
 
 /*
-  Format string
-
-  Using string with printf() format specifiers.
-*/
-TBool TString::Format(
-  const TAsciiz FormatStr,
-  ...
-)
-{
-  TBool Result;
-  va_list Args;
-
-  va_start(Args, FormatStr);
-  Result = me_String::Freetown::FormatStr(&Data, FormatStr, Args);
-  va_end(Args);
-
-  return Result;
-}
-
-/*
-  2024-10-04
-  2024-10-07
-  2024-10-08
-  2024-10-17
+  2024-10 # # # #
+  2024-12-19
 */
