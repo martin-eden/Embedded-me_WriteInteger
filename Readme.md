@@ -4,7 +4,6 @@
 
 Encoding/decoding integers to decimal ASCII. AVR. Arduino.
 
-
 ## Reference output
 
 ```
@@ -22,6 +21,11 @@ Encoding/decoding integers to decimal ASCII. AVR. Arduino.
 * [Implementation][Implementation]
 * [Example][Example]
 
+## Install/remove
+
+Easy way is to clone [GetLibs][GetLibs] repo and run it's code.
+Lacking of local repo catalogue in Arduino IDE sucks.
+
 ## See also
 
 * [My other embedded C++ libraries][Embedded]
@@ -30,6 +34,8 @@ Encoding/decoding integers to decimal ASCII. AVR. Arduino.
 [Example]: examples/me_CodecDecInt/me_CodecDecInt.ino
 [Interface]: src/me_CodecDecInt.h
 [Implementation]: src/me_CodecDecInt.cpp
+
+[GetLibs]: https://github.com/martin-eden/Embedded-Framework-GetLibs
 
 [Embedded]: https://github.com/martin-eden/Embedded_Crafts/tree/master/Parts
 [Repos]: https://github.com/martin-eden/contents
