@@ -22,7 +22,7 @@ using
   because calling code uses (should use) value in [0, 9]
   by design.
 */
-TUint_1 Freetown::DigToAscii(TUint_1 Digit)
+TUint_1 DigToAscii(TUint_1 Digit)
 {
   return '0' + Digit;
 }
@@ -36,7 +36,7 @@ TUint_1 Freetown::DigToAscii(TUint_1 Digit)
   On higher levels reverse can be achieved by adding data to
   stack instead of queue.
 */
-void Freetown::ReverseSegmentData(
+void ReverseSegmentData(
   TMemorySegment Data
 )
 {
@@ -83,9 +83,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::TSegmentIterator,
-    Freetown::DigToAscii,
     me_WorkMemory::SetByte,
-    Freetown::ReverseSegmentData,
     me_SegmentProcessor::CopyFrom;
 
   // "10" - 10 decimal digits are required to represent 2^32

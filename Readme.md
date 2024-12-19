@@ -4,14 +4,19 @@
 
 Encoding/decoding integers to decimal ASCII. AVR. Arduino.
 
+Decoding is not incorporated yet (but implemented in other modules).
+
 ## Reference output
 
 ```
 [me_CodecDecInt] Okay, we are here.
-  * Formatting integers
-    00000000000000000123
-    -0000000002147483648
-    00000000002147483648
+* Encoding integers
+  TUint_1 012
+  TUint_2 00012
+  TUint_4 0000000012
+  TSint_1 -012
+  TSint_2 -00012
+  TSint_4 -0000000012
 [me_CodecDecInt] Done.
 ```
 
