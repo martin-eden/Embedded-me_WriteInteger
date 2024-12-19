@@ -7,9 +7,8 @@
 
 #include <me_BaseTypes.h>
 #include <me_MemorySegment.h>
-#include <me_ManagedMemory.h>
 
-namespace me_String
+namespace me_CodecDecInt
 {
   // Format TUint_4 in given length with zero padding
   void FormatUint_4(

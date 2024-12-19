@@ -1,24 +1,25 @@
-// [me_String] test/demo
+// [me_CodecDecInt] test/demo
 
 /*
   Author: Martin Eden
   Last mod.: 2024-12-19
 */
 
-#include <me_String.h>
+#include <me_CodecDecInt.h>
 
 #include <me_BaseTypes.h>
-#include <me_UartSpeeds.h>
 #include <me_Console.h>
+#include <me_Uart.h>
+#include <me_UartSpeeds.h>
 #include <me_MemorySegment.h>
 
 void setup()
 {
-  Serial.begin(me_UartSpeeds::Bps_115k);
+  me_Uart::Init(me_UartSpeeds::Bps_115k);
 
-  Console.Print("[me_String] Okay, we are here.");
+  Console.Print("[me_CodecDecInt] Okay, we are here.");
   RunTest();
-  Console.Print("[me_String] Done.");
+  Console.Print("[me_CodecDecInt] Done.");
 }
 
 void loop()
@@ -39,8 +40,8 @@ void RunTest()
       using
         me_MemorySegment::TMemorySegment,
         me_MemorySegment::Freetown::FromAddrSize,
-        me_String::FormatUint_4,
-        me_String::FormatSint_4;
+        me_CodecDecInt::FormatUint_4,
+        me_CodecDecInt::FormatSint_4;
 
       TUint_1 BufferSize = 20;
       TUint_1 Buffer[BufferSize];

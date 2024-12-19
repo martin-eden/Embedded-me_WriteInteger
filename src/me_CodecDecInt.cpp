@@ -5,9 +5,9 @@
   Last mod.: 2024-12-19
 */
 
-#include <me_String.h>
+#include <me_CodecDecInt.h>
 
-using namespace me_String;
+using namespace me_CodecDecInt;
 
 using
   me_MemorySegment::TMemorySegment;
@@ -57,7 +57,7 @@ TUint_1 DigToAscii(TUint_1 Digit)
 
       Value we're representing
 */
-void me_String::FormatUint_4(
+void me_CodecDecInt::FormatUint_4(
   TMemorySegment Result,
   TUint_4 Value
 )
@@ -93,7 +93,7 @@ void me_String::FormatUint_4(
 
   Zeroes padding, "+"/"-" sign. Zero has sign "+".
 */
-void me_String::FormatSint_4(
+void me_CodecDecInt::FormatSint_4(
   TMemorySegment Result,
   TSint_4 Value
 )
