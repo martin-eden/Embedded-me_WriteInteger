@@ -20,6 +20,42 @@ using
   leading sign. Sign of zero is considered "+".
 */
 
+// ( TString
+
+/*
+  Return our data span
+*/
+TMemorySegment TString::GetData()
+{
+  return Data.GetData();
+}
+
+// Copy from memory segment
+TBool TString::CopyFrom(
+  TMemorySegment Memseg
+)
+{
+  return Data.LoadFrom(Memseg);
+}
+
+// Copy from ASCIIZ
+TBool TString::CopyFrom(
+  const TAsciiz Asciiz
+)
+{
+  return Data.LoadFrom(Asciiz);
+}
+
+// Copy from our specie
+TBool TString::CopyFrom(
+  TString String
+)
+{
+  return Data.LoadFrom(&String.Data);
+}
+
+// ) TString
+
 /*
   Check that given number falls in decimal digits range [0, 9]
 */
