@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-19
+  Last mod.: 2025-08-19
 */
 
 #include <me_CodecDecInt.h>
@@ -41,8 +41,8 @@ void ReverseSegmentData(
 )
 {
   using
-    me_WorkMemory::GetByte,
-    me_WorkMemory::SetByte;
+    me_WorkMemory::GetByteFrom,
+    me_WorkMemory::SetByteTo;
 
   if (Data.Size == 0)
     return;
@@ -57,11 +57,11 @@ void ReverseSegmentData(
 
   while (LeftByteAddr < RightByteAddr)
   {
-    GetByte(&LeftByte, LeftByteAddr);
-    GetByte(&RightByte, RightByteAddr);
+    GetByteFrom(&LeftByte, LeftByteAddr);
+    GetByteFrom(&RightByte, RightByteAddr);
 
-    SetByte(RightByte, LeftByteAddr);
-    SetByte(LeftByte, RightByteAddr);
+    SetByteTo(LeftByteAddr, RightByte);
+    SetByteTo(RightByteAddr, LeftByte);
 
     ++LeftByteAddr;
     --RightByteAddr;
@@ -83,7 +83,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::TSegmentIterator,
-    me_WorkMemory::SetByte,
+    me_WorkMemory::SetByteTo,
     me_SegmentProcessor::CopyFrom;
 
   // "10" - 10 decimal digits are required to represent 2^32
@@ -104,7 +104,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   // Write digits from least to most significant
   while (Rator.GetNext(&Addr))
   {
-    SetByte(DigToAscii(Value % 10), Addr);
+    SetByteTo(Addr, DigToAscii(Value % 10));
     Value = Value / 10;
   }
 
