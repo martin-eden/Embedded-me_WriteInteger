@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-19
+  Last mod.: 2025-08-25
 */
 
 #include <me_CodecDecInt.h>
@@ -102,7 +102,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
     return false;
 
   // Write digits from least to most significant
-  while (Rator.GetNext(&Addr))
+  while (Rator.GetNextAddr(&Addr))
   {
     SetByteTo(Addr, DigToAscii(Value % 10));
     Value = Value / 10;
