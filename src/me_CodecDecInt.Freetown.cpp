@@ -8,7 +8,8 @@
 #include <me_CodecDecInt.h>
 
 #include <me_WorkMemory.h>
-#include <me_SegmentProcessor.h>
+#include <me_Streams.h>
+#include <me_MemsegStreams.h>
 
 using namespace me_CodecDecInt;
 
@@ -76,15 +77,14 @@ void ReverseSegmentData(
 TBool me_CodecDecInt::Freetown::Encode_U4(
   TUint_4 Value,
   TUint_1 OutputLength,
-  TOperation Op_PutByte
+  TFixedOperation Op_PutByte
 )
 {
   using
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::TSegmentIterator,
-    me_WorkMemory::SetByteTo,
-    me_SegmentProcessor::CopyFrom;
+    me_WorkMemory::SetByteTo;
 
   // "10" - 10 decimal digits are required to represent 2^32
   const TUint_1 BuffSize = 10;
@@ -93,6 +93,9 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
 
   TSegmentIterator Rator;
   TAddress Addr;
+
+  me_MemsegStreams::TMemsegInputStream MemoryInputStream;
+  me_Streams::TOutputStream OutputStream;
 
   // Encoding in more number of digits than required is discouraged
   if (OutputLength > BuffSize)
@@ -115,9 +118,13 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   */
   ReverseSegmentData(BuffSeg);
 
+  if (!MemoryInputStream.Init(BuffSeg, me_WorkMemory::Op_GetByte))
+    return false;
+
+  OutputStream.Init(Op_PutByte);
+
   // "Print" buffer (copy it)
-  return
-    CopyFrom(BuffSeg, BuffSeg, me_WorkMemory::Op_GetByte, Op_PutByte);
+  return me_Streams::Freetown::CopyTo(&OutputStream, &MemoryInputStream);
 }
 
 /*
@@ -130,7 +137,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
 TBool me_CodecDecInt::Freetown::Encode_S4(
   TSint_4 Value,
   TUint_1 OutputLength,
-  TOperation Op_PutByte
+  TFixedOperation Op_PutByte
 )
 {
   if (OutputLength == 0)
@@ -143,7 +150,7 @@ TBool me_CodecDecInt::Freetown::Encode_S4(
   if (IsNegative)
     Value = -Value;
 
-  Op_PutByte(SignCharAddr, SignCharAddr);
+  Op_PutByte(SignCharAddr);
 
   return Encode_U4(Value, OutputLength - 1, Op_PutByte);
 }

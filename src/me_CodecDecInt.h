@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-19
+  Last mod.: 2025-08-25
 */
 
 /*
@@ -18,12 +18,12 @@
 namespace me_CodecDecInt
 {
   // Encode integer
-  TBool Encode(TUint_1 Value, TOperation Op_PutByte);
-  TBool Encode(TUint_2 Value, TOperation Op_PutByte);
-  TBool Encode(TUint_4 Value, TOperation Op_PutByte);
-  TBool Encode(TSint_1 Value, TOperation Op_PutByte);
-  TBool Encode(TSint_2 Value, TOperation Op_PutByte);
-  TBool Encode(TSint_4 Value, TOperation Op_PutByte);
+  TBool Encode(TUint_1 Value, TFixedOperation Op_PutByte);
+  TBool Encode(TUint_2 Value, TFixedOperation Op_PutByte);
+  TBool Encode(TUint_4 Value, TFixedOperation Op_PutByte);
+  TBool Encode(TSint_1 Value, TFixedOperation Op_PutByte);
+  TBool Encode(TSint_2 Value, TFixedOperation Op_PutByte);
+  TBool Encode(TSint_4 Value, TFixedOperation Op_PutByte);
 
   namespace Freetown
   {
@@ -31,14 +31,14 @@ namespace me_CodecDecInt
     TBool Encode_U4(
       TUint_4 Value,
       TUint_1 OutputLength,
-      TOperation Op_PutByte
+      TFixedOperation Op_PutByte
     );
 
     // Encode TSint_4 to workmem segment. Leading sign, zero padding
     TBool Encode_S4(
       TSint_4 Value,
       TUint_1 OutputLength,
-      TOperation Op_PutByte
+      TFixedOperation Op_PutByte
     );
   }
 }
@@ -46,4 +46,5 @@ namespace me_CodecDecInt
 /*
   2024-10 # # # #
   2024-12-19
+  2025-08-25
 */
