@@ -1,12 +1,13 @@
-// Core functions for integer-to-ascii codec
+// Core functions for integer-to-ascii coder
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-25
+  Last mod.: 2025-08-26
 */
 
 #include <me_CodecDecInt.h>
 
+#include <me_BaseTypes.h>
 #include <me_WorkMemory.h>
 #include <me_Streams.h>
 #include <me_MemsegStreams.h>
@@ -23,7 +24,9 @@ using
   because calling code uses (should use) value in [0, 9]
   by design.
 */
-TUint_1 DigToAscii(TUint_1 Digit)
+TUint_1 DigToAscii(
+  TUint_1 Digit
+)
 {
   return '0' + Digit;
 }
@@ -43,7 +46,7 @@ void ReverseSegmentData(
 {
   using
     me_WorkMemory::GetByteFrom,
-    me_WorkMemory::SetByteTo;
+    me_WorkMemory::SetByteAt;
 
   if (Data.Size == 0)
     return;
@@ -61,8 +64,8 @@ void ReverseSegmentData(
     GetByteFrom(&LeftByte, LeftByteAddr);
     GetByteFrom(&RightByte, RightByteAddr);
 
-    SetByteTo(LeftByteAddr, RightByte);
-    SetByteTo(RightByteAddr, LeftByte);
+    SetByteAt(LeftByteAddr, RightByte);
+    SetByteAt(RightByteAddr, LeftByte);
 
     ++LeftByteAddr;
     --RightByteAddr;
@@ -77,14 +80,14 @@ void ReverseSegmentData(
 TBool me_CodecDecInt::Freetown::Encode_U4(
   TUint_4 Value,
   TUint_1 OutputLength,
-  TFixedOperation Op_PutByte
+  me_Streams::IOutputStream * OutputStream
 )
 {
   using
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::TSegmentIterator,
-    me_WorkMemory::SetByteTo;
+    me_WorkMemory::SetByteAt;
 
   // "10" - 10 decimal digits are required to represent 2^32
   const TUint_1 BuffSize = 10;
@@ -95,7 +98,6 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   TAddress Addr;
 
   me_MemsegStreams::TMemsegInputStream MemoryInputStream;
-  me_Streams::TOutputStream OutputStream;
 
   // Encoding in more number of digits than required is discouraged
   if (OutputLength > BuffSize)
@@ -107,7 +109,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   // Write digits from least to most significant
   while (Rator.GetNextAddr(&Addr))
   {
-    SetByteTo(Addr, DigToAscii(Value % 10));
+    SetByteAt(Addr, DigToAscii(Value % 10));
     Value = Value / 10;
   }
 
@@ -121,10 +123,8 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   if (!MemoryInputStream.Init(BuffSeg, me_WorkMemory::Op_GetByte))
     return false;
 
-  OutputStream.Init(Op_PutByte);
-
   // "Print" buffer (copy it)
-  return me_Streams::Freetown::CopyTo(&OutputStream, &MemoryInputStream);
+  return me_Streams::CopyStreamTo(&MemoryInputStream, OutputStream);
 }
 
 /*
@@ -137,7 +137,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
 TBool me_CodecDecInt::Freetown::Encode_S4(
   TSint_4 Value,
   TUint_1 OutputLength,
-  TFixedOperation Op_PutByte
+  me_Streams::IOutputStream * OutputStream
 )
 {
   if (OutputLength == 0)
@@ -145,14 +145,13 @@ TBool me_CodecDecInt::Freetown::Encode_S4(
 
   TBool IsNegative = (Value < 0);
   TUint_1 SignChar = IsNegative ? '-' : '+';
-  TAddress SignCharAddr = (TAddress) &SignChar;
 
   if (IsNegative)
     Value = -Value;
 
-  Op_PutByte(SignCharAddr);
+  OutputStream->Write(SignChar);
 
-  return Encode_U4(Value, OutputLength - 1, Op_PutByte);
+  return Encode_U4(Value, OutputLength - 1, OutputStream);
 }
 
 /*

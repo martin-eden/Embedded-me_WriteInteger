@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-25
+  Last mod.: 2025-08-26
 */
 
 /*
@@ -14,37 +14,41 @@
 */
 
 #include <me_BaseTypes.h>
+#include <me_Streams.h>
 
 namespace me_CodecDecInt
 {
-  // Encode integer
-  TBool Encode(TUint_1 Value, TFixedOperation Op_PutByte);
-  TBool Encode(TUint_2 Value, TFixedOperation Op_PutByte);
-  TBool Encode(TUint_4 Value, TFixedOperation Op_PutByte);
-  TBool Encode(TSint_1 Value, TFixedOperation Op_PutByte);
-  TBool Encode(TSint_2 Value, TFixedOperation Op_PutByte);
-  TBool Encode(TSint_4 Value, TFixedOperation Op_PutByte);
+  // ( Integer encoders
+  TBool Encode(TUint_1 Value, me_Streams::IOutputStream * OutputStream);
+  TBool Encode(TUint_2 Value, me_Streams::IOutputStream * OutputStream);
+  TBool Encode(TUint_4 Value, me_Streams::IOutputStream * OutputStream);
 
+  TBool Encode(TSint_1 Value, me_Streams::IOutputStream * OutputStream);
+  TBool Encode(TSint_2 Value, me_Streams::IOutputStream * OutputStream);
+  TBool Encode(TSint_4 Value, me_Streams::IOutputStream * OutputStream);
+  // )
+
+  // Core functions
   namespace Freetown
   {
     // Encode TUint_4 to given workmem segment. Zero padding
     TBool Encode_U4(
       TUint_4 Value,
       TUint_1 OutputLength,
-      TFixedOperation Op_PutByte
+      me_Streams::IOutputStream * OutputStream
     );
 
     // Encode TSint_4 to workmem segment. Leading sign, zero padding
     TBool Encode_S4(
       TSint_4 Value,
       TUint_1 OutputLength,
-      TFixedOperation Op_PutByte
+      me_Streams::IOutputStream * OutputStream
     );
   }
 }
 
 /*
-  2024-10 # # # #
-  2024-12-19
+  2024 # # # # #
   2025-08-25
+  2025-08-26
 */
