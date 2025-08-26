@@ -1,4 +1,4 @@
-// Integer <-> ASCII coder/decoder
+// Integer to decimal ASCII coder
 
 /*
   Author: Martin Eden
@@ -10,7 +10,7 @@
   string with leading zeroes.
 
   All signed integer formatting functions represent number with
-  leading sign. Sign of zero is considered "+".
+  leading sign. Sign of zero is "+".
 */
 
 #include <me_BaseTypes.h>
