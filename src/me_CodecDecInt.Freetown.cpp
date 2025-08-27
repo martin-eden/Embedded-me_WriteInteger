@@ -14,9 +14,6 @@
 
 using namespace me_CodecDecInt;
 
-using
-  me_MemorySegment::TMemorySegment;
-
 /*
   Convert integer in [0, 9] to ASCII value
 
@@ -41,7 +38,7 @@ TUint_1 DigToAscii(
   stack instead of queue.
 */
 void ReverseSegmentData(
-  TMemorySegment Data
+  TAddressSegment Data
 )
 {
   using
@@ -85,14 +82,13 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
 {
   using
     me_MemorySegment::Freetown::FromAddrSize,
-    me_MemorySegment::TMemorySegment,
     me_MemorySegment::TSegmentIterator,
     me_WorkMemory::SetByteAt;
 
   // "10" - 10 decimal digits are required to represent 2^32
   const TUint_1 BuffSize = 10;
   TUint_1 Buffer[BuffSize];
-  TMemorySegment BuffSeg = FromAddrSize((TAddress) &Buffer, OutputLength);
+  TAddressSegment BuffSeg = FromAddrSize((TAddress) &Buffer, OutputLength);
 
   TSegmentIterator Rator;
   TAddress Addr;
