@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-26
+  Last mod.: 2025-08-27
 */
 
 /*
@@ -14,18 +14,18 @@
 */
 
 #include <me_BaseTypes.h>
-#include <me_Streams.h>
+#include <me_BaseInterfaces.h>
 
 namespace me_CodecDecInt
 {
   // ( Integer encoders
-  TBool Encode(TUint_1 Value, me_Streams::IOutputStream * OutputStream);
-  TBool Encode(TUint_2 Value, me_Streams::IOutputStream * OutputStream);
-  TBool Encode(TUint_4 Value, me_Streams::IOutputStream * OutputStream);
+  TBool Encode(TUint_1 Value, IOutputStream * OutputStream);
+  TBool Encode(TUint_2 Value, IOutputStream * OutputStream);
+  TBool Encode(TUint_4 Value, IOutputStream * OutputStream);
 
-  TBool Encode(TSint_1 Value, me_Streams::IOutputStream * OutputStream);
-  TBool Encode(TSint_2 Value, me_Streams::IOutputStream * OutputStream);
-  TBool Encode(TSint_4 Value, me_Streams::IOutputStream * OutputStream);
+  TBool Encode(TSint_1 Value, IOutputStream * OutputStream);
+  TBool Encode(TSint_2 Value, IOutputStream * OutputStream);
+  TBool Encode(TSint_4 Value, IOutputStream * OutputStream);
   // )
 
   // Core functions
@@ -35,14 +35,14 @@ namespace me_CodecDecInt
     TBool Encode_U4(
       TUint_4 Value,
       TUint_1 OutputLength,
-      me_Streams::IOutputStream * OutputStream
+      IOutputStream * OutputStream
     );
 
     // Encode TSint_4 to workmem segment. Leading sign, zero padding
     TBool Encode_S4(
       TSint_4 Value,
       TUint_1 OutputLength,
-      me_Streams::IOutputStream * OutputStream
+      IOutputStream * OutputStream
     );
   }
 }
