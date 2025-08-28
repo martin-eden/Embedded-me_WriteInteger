@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-28
+  Last mod.: 2025-08-29
 */
 
 #include <me_CodecDecInt.h>
@@ -81,14 +81,11 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   IOutputStream * OutputStream
 )
 {
-  using
-    me_MemorySegment::Freetown::FromAddrSize,
-    me_WorkMemory::SetByteAt;
-
-  // "10" - 10 decimal digits are required to represent 2^32
+  // Ten decimal digits are required to represent 2^32
   const TUint_1 BuffSize = 10;
   TUint_1 Buffer[BuffSize];
-  TAddressSegment BuffSeg = FromAddrSize((TAddress) &Buffer, OutputLength);
+  TAddressSegment BuffSeg =
+    { .Addr = (TAddress) &Buffer, .Size = OutputLength };
 
   TAddressIterator Rator;
   TAddress Addr;
@@ -105,7 +102,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   // Write digits from least to most significant
   while (Rator.GetNextAddr(&Addr))
   {
-    SetByteAt(Addr, DigToAscii(Value % 10));
+    me_WorkMemory::SetByteAt(Addr, DigToAscii(Value % 10));
     Value = Value / 10;
   }
 
