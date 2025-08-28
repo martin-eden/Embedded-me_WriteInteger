@@ -11,7 +11,6 @@
 #include <me_BaseInterfaces.h>
 #include <me_MemorySegment.h>
 #include <me_WorkMemory.h>
-#include <me_MemsegStreams.h>
 #include <me_StreamTools.h>
 
 using namespace me_CodecDecInt;
@@ -94,7 +93,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   TAddressIterator Rator;
   TAddress Addr;
 
-  me_MemsegStreams::TAddrsegInputStream BufferStream;
+  me_StreamTools::TAddrsegInputStream BufferStream;
 
   // Encoding in more number of digits than required is discouraged
   if (OutputLength > BuffSize)
