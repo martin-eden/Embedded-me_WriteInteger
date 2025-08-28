@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-27
+  Last mod.: 2025-08-28
 */
 
 #include <me_CodecDecInt.h>
@@ -12,7 +12,7 @@
 #include <me_MemorySegment.h>
 #include <me_WorkMemory.h>
 #include <me_MemsegStreams.h>
-#include <me_Streams.h>
+#include <me_StreamTools.h>
 
 using namespace me_CodecDecInt;
 
@@ -121,7 +121,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
     return false;
 
   // "Print" buffer (copy it)
-  return me_Streams::CopyStreamTo(&BufferStream, OutputStream);
+  return me_StreamTools::CopyStreamTo(&BufferStream, OutputStream);
 }
 
 /*
