@@ -9,8 +9,10 @@
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
+#include <me_MemorySegment.h>
 #include <me_WorkMemory.h>
 #include <me_MemsegStreams.h>
+#include <me_Streams.h>
 
 using namespace me_CodecDecInt;
 
@@ -82,7 +84,6 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
 {
   using
     me_MemorySegment::Freetown::FromAddrSize,
-    me_MemorySegment::TSegmentIterator,
     me_WorkMemory::SetByteAt;
 
   // "10" - 10 decimal digits are required to represent 2^32
@@ -90,10 +91,10 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   TUint_1 Buffer[BuffSize];
   TAddressSegment BuffSeg = FromAddrSize((TAddress) &Buffer, OutputLength);
 
-  TSegmentIterator Rator;
+  TAddressIterator Rator;
   TAddress Addr;
 
-  me_MemsegStreams::TMemsegInputStream MemoryInputStream;
+  me_MemsegStreams::TAddrsegInputStream BufferStream;
 
   // Encoding in more number of digits than required is discouraged
   if (OutputLength > BuffSize)
@@ -116,11 +117,11 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   */
   ReverseSegmentData(BuffSeg);
 
-  if (!MemoryInputStream.Init(BuffSeg, me_WorkMemory::Op_GetByte))
+  if (!BufferStream.Init(BuffSeg, me_WorkMemory::Op_GetByte))
     return false;
 
   // "Print" buffer (copy it)
-  return me_Streams::CopyStreamTo(&MemoryInputStream, OutputStream);
+  return me_Streams::CopyStreamTo(&BufferStream, OutputStream);
 }
 
 /*
