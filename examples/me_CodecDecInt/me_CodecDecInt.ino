@@ -2,14 +2,14 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-26
+  Last mod.: 2025-08-29
 */
 
 #include <me_CodecDecInt.h>
 
 #include <me_BaseTypes.h>
 #include <me_Console.h>
-#include <me_Uart.h>
+#include <me_StreamsCollection.h>
 
 void RunTest()
 {
@@ -21,7 +21,7 @@ void RunTest()
   using
     me_CodecDecInt::Encode;
 
-  me_Uart::TOutputStream UartOutput;
+  me_StreamsCollection::TUartOutputStream UartOutput;
 
   Console.Print("* Encode integers");
 
