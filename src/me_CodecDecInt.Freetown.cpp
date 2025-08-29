@@ -12,6 +12,7 @@
 #include <me_MemorySegment.h>
 #include <me_WorkMemory.h>
 #include <me_StreamTools.h>
+#include <me_StreamsCollection.h>
 
 using namespace me_CodecDecInt;
 
@@ -90,7 +91,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   TAddressIterator Rator;
   TAddress Addr;
 
-  me_StreamTools::TAddrsegInputStream BufferStream;
+  me_StreamsCollection::TWorkmemInputStream BufferStream;
 
   // Encoding in more number of digits than required is discouraged
   if (OutputLength > BuffSize)
@@ -113,7 +114,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   */
   ReverseSegmentData(BuffSeg);
 
-  if (!BufferStream.Init(BuffSeg, me_WorkMemory::Op_GetByte))
+  if (!BufferStream.Init(BuffSeg))
     return false;
 
   // "Print" buffer (copy it)
