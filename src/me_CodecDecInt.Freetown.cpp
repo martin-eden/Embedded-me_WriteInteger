@@ -2,14 +2,13 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-29
+  Last mod.: 2025-08-30
 */
 
 #include <me_CodecDecInt.h>
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
-#include <me_MemorySegment.h>
 #include <me_WorkMemory.h>
 #include <me_StreamTools.h>
 #include <me_StreamsCollection.h>
