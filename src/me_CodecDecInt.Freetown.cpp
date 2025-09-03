@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-30
+  Last mod.: 2025-09-03
 */
 
 #include <me_CodecDecInt.h>
@@ -87,7 +87,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
   TAddressSegment BuffSeg =
     { .Addr = (TAddress) &Buffer, .Size = OutputLength };
 
-  TAddressIterator Rator;
+  TAddrsegIterator Rator;
   TAddress Addr;
 
   me_StreamsCollection::TWorkmemInputStream BufferStream;
