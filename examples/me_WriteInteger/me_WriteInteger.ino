@@ -1,11 +1,11 @@
-// [me_CodecDecInt] test/demo
+// [me_WriteInteger] test/demo
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-29
+  Last mod.: 2025-09-05
 */
 
-#include <me_CodecDecInt.h>
+#include <me_WriteInteger.h>
 
 #include <me_BaseTypes.h>
 #include <me_Console.h>
@@ -19,9 +19,11 @@ void RunTest()
   */
 
   using
-    me_CodecDecInt::Encode;
+    me_WriteInteger::Encode;
 
   me_StreamsCollection::TUartOutputStream UartOutput;
+
+  UartOutput.Init();
 
   Console.Print("* Encode integers");
 
@@ -78,9 +80,9 @@ void setup()
 {
   Console.Init();
 
-  Console.Print("[me_CodecDecInt] Okay, we are here.");
+  Console.Print("[me_WriteInteger] Okay, we are here.");
   RunTest();
-  Console.Print("[me_CodecDecInt] Done.");
+  Console.Print("[me_WriteInteger] Done.");
 }
 
 void loop()

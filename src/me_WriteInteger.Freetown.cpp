@@ -5,7 +5,7 @@
   Last mod.: 2025-09-03
 */
 
-#include <me_CodecDecInt.h>
+#include <me_WriteInteger.h>
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
@@ -13,7 +13,7 @@
 #include <me_StreamTools.h>
 #include <me_StreamsCollection.h>
 
-using namespace me_CodecDecInt;
+using namespace me_WriteInteger;
 
 /*
   Convert integer in [0, 9] to ASCII value
@@ -75,7 +75,7 @@ void ReverseSegmentData(
 
   Core function.
 */
-TBool me_CodecDecInt::Freetown::Encode_U4(
+TBool me_WriteInteger::Freetown::Encode_U4(
   TUint_4 Value,
   TUint_1 OutputLength,
   IOutputStream * OutputStream
@@ -127,7 +127,7 @@ TBool me_CodecDecInt::Freetown::Encode_U4(
 
   Wrapper for Encode_U4().
 */
-TBool me_CodecDecInt::Freetown::Encode_S4(
+TBool me_WriteInteger::Freetown::Encode_S4(
   TSint_4 Value,
   TUint_1 OutputLength,
   IOutputStream * OutputStream

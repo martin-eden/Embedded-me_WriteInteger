@@ -16,7 +16,7 @@
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
 
-namespace me_CodecDecInt
+namespace me_WriteInteger
 {
   // ( Integer encoders
   TBool Encode(TUint_1 Value, IOutputStream * OutputStream);
@@ -51,4 +51,5 @@ namespace me_CodecDecInt
   2024 # # # # #
   2025-08-25
   2025-08-26
+  2025-09-05
 */
