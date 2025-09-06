@@ -32,7 +32,7 @@ void PrintDigit(
 /*
   [Core] Write TUint_4 as ASCII decimal to stream
 */
-TBool me_WriteInteger::Freetown::Encode_U4(
+TBool me_WriteInteger::Freetown::Write_U4(
   TUint_4 Value,
   TUint_1 OutputLength,
   IOutputStream * OutputStream
@@ -77,13 +77,9 @@ TBool me_WriteInteger::Freetown::Encode_U4(
 }
 
 /*
-  Encode TSint_4 to ASCII in work memory
-
-  Leading sign (zero has "+" sign). Zero padding.
-
-  Wrapper for Encode_U4().
+  Write TSint_4 as ASCII decimal to stream
 */
-TBool me_WriteInteger::Freetown::Encode_S4(
+TBool me_WriteInteger::Freetown::Write_S4(
   TSint_4 Value_S4,
   TUint_1 OutputLength,
   IOutputStream * OutputStream
@@ -105,7 +101,7 @@ TBool me_WriteInteger::Freetown::Encode_S4(
   if (OutputLength == 0)
     return false;
 
-  return Encode_U4(Value_U4, OutputLength - 1, OutputStream);
+  return Write_U4(Value_U4, OutputLength - 1, OutputStream);
 }
 
 /*

@@ -2,14 +2,14 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-27
+  Last mod.: 2025-09-06
 */
 
 /*
-  All integer encoding functions represent number as fixed-length
+  All integer encoding functions represent integer as fixed-length
   string with leading zeroes.
 
-  All signed integer formatting functions represent number with
+  All signed integer formatting functions represent integer with
   leading sign. Sign of zero is "+".
 */
 
@@ -18,28 +18,26 @@
 
 namespace me_WriteInteger
 {
-  // ( Integer encoders
-  TBool Encode(TUint_1 Value, IOutputStream * OutputStream);
-  TBool Encode(TUint_2 Value, IOutputStream * OutputStream);
-  TBool Encode(TUint_4 Value, IOutputStream * OutputStream);
+  // (  Write integer as decimal ASCII to output stream
+  TBool Write_U1(TUint_1 Value, IOutputStream * OutputStream);
+  TBool Write_U2(TUint_2 Value, IOutputStream * OutputStream);
+  TBool Write_U4(TUint_4 Value, IOutputStream * OutputStream);
 
-  TBool Encode(TSint_1 Value, IOutputStream * OutputStream);
-  TBool Encode(TSint_2 Value, IOutputStream * OutputStream);
-  TBool Encode(TSint_4 Value, IOutputStream * OutputStream);
+  TBool Write_S1(TSint_1 Value, IOutputStream * OutputStream);
+  TBool Write_S2(TSint_2 Value, IOutputStream * OutputStream);
+  TBool Write_S4(TSint_4 Value, IOutputStream * OutputStream);
   // )
 
-  // Core functions
+  // [Core]
   namespace Freetown
   {
-    // Encode TUint_4 to given workmem segment. Zero padding
-    TBool Encode_U4(
+    TBool Write_U4(
       TUint_4 Value,
       TUint_1 OutputLength,
       IOutputStream * OutputStream
     );
 
-    // Encode TSint_4 to workmem segment. Leading sign, zero padding
-    TBool Encode_S4(
+    TBool Write_S4(
       TSint_4 Value,
       TUint_1 OutputLength,
       IOutputStream * OutputStream
@@ -49,7 +47,6 @@ namespace me_WriteInteger
 
 /*
   2024 # # # # #
-  2025-08-25
-  2025-08-26
-  2025-09-05
+  2025 # # #
+  2025-09-06
 */
