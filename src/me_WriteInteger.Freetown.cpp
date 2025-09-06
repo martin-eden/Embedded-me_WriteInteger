@@ -2,78 +2,35 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-03
+  Last mod.: 2025-09-06
 */
 
 #include <me_WriteInteger.h>
 
 #include <me_BaseTypes.h>
 #include <me_BaseInterfaces.h>
-#include <me_WorkMemory.h>
-#include <me_StreamTools.h>
-#include <me_StreamsCollection.h>
 
 using namespace me_WriteInteger;
 
-/*
-  Convert integer in [0, 9] to ASCII value
-
-  It's internal function. We're not checking input range
-  because calling code uses (should use) value in [0, 9]
-  by design.
-*/
+// [Internal] Convert integer in [0, 9] to ASCII value
 TUint_1 DigToAscii(
   TUint_1 Digit
 )
 {
-  return '0' + Digit;
+  return Digit + '0';
 }
 
-/*
-  Reverse segment data
-
-  Only practical use of this function I've found in my life
-  is to reverse parsed decimal number data.
-
-  On higher levels reverse can be achieved by adding data to
-  stack instead of queue.
-*/
-void ReverseSegmentData(
-  TAddressSegment Data
+// [Internal] Write digit to stream
+void PrintDigit(
+  TUint_1 Digit,
+  IOutputStream * OutputStream
 )
 {
-  using
-    me_WorkMemory::GetByteFrom,
-    me_WorkMemory::SetByteAt;
-
-  if (Data.Size == 0)
-    return;
-
-  TAddress LeftmostByteAddr = Data.Addr;
-  TAddress RightmostByteAddr = Data.Addr + Data.Size - 1;
-
-  TAddress LeftByteAddr = LeftmostByteAddr;
-  TAddress RightByteAddr = RightmostByteAddr;
-  TUint_1 LeftByte = 0;
-  TUint_1 RightByte = 0;
-
-  while (LeftByteAddr < RightByteAddr)
-  {
-    GetByteFrom(&LeftByte, LeftByteAddr);
-    GetByteFrom(&RightByte, RightByteAddr);
-
-    SetByteAt(LeftByteAddr, RightByte);
-    SetByteAt(RightByteAddr, LeftByte);
-
-    ++LeftByteAddr;
-    --RightByteAddr;
-  }
+  OutputStream->Write(DigToAscii(Digit));
 }
 
 /*
-  Encode TUint_4 to ASCII in work memory
-
-  Core function.
+  [Core] Write TUint_4 as ASCII decimal to stream
 */
 TBool me_WriteInteger::Freetown::Encode_U4(
   TUint_4 Value,
@@ -81,43 +38,42 @@ TBool me_WriteInteger::Freetown::Encode_U4(
   IOutputStream * OutputStream
 )
 {
-  // Ten decimal digits are required to represent 2^32
-  const TUint_1 BuffSize = 10;
-  TUint_1 Buffer[BuffSize];
-  TAddressSegment BuffSeg =
-    { .Addr = (TAddress) &Buffer, .Size = OutputLength };
+  // Number of decimal digits required to represent 2^32
+  const TUint_1 MaxNumDigits = 10;
+  const TUint_4 MaxDigit = 9;
 
-  TAddrsegIterator Rator;
-  TAddress Addr;
+  TUint_1 NumDigitsUsed;
+  TUint_4 ExtractrionBase;
+  TUint_1 Digit;
 
-  me_StreamsCollection::TWorkmemInputStream BufferStream;
-
-  // Encoding in more number of digits than required is discouraged
-  if (OutputLength > BuffSize)
+  if (OutputLength > MaxNumDigits)
     return false;
 
-  if (!Rator.Init(BuffSeg))
-    return false;
+  NumDigitsUsed = 1;
+  ExtractrionBase = 1;
 
-  // Write digits from least to most significant
-  while (Rator.GetNextAddr(&Addr))
+  while (NumDigitsUsed < OutputLength)
   {
-    me_WorkMemory::SetByteAt(Addr, DigToAscii(Value % 10));
-    Value = Value / 10;
+    ExtractrionBase = ExtractrionBase * 10;
+    NumDigitsUsed = NumDigitsUsed + 1;
   }
 
-  /*
-    It was nice and simple. But convention requires that number
-    123 should be stored like (0 0 1 2 3), not (3 2 1 0 0) that
-    we have now.
-  */
-  ReverseSegmentData(BuffSeg);
-
-  if (!BufferStream.Init(BuffSeg))
+  // Fail when output length is too short for value
+  if (Value / ExtractrionBase > MaxDigit)
     return false;
 
-  // "Print" buffer (copy it)
-  return me_StreamTools::CopyStreamTo(&BufferStream, OutputStream);
+  while (NumDigitsUsed > 0)
+  {
+    Digit = Value / ExtractrionBase;
+
+    PrintDigit(Digit, OutputStream);
+
+    Value = Value - (Digit * ExtractrionBase);
+    ExtractrionBase = ExtractrionBase / 10;
+    NumDigitsUsed = NumDigitsUsed - 1;
+  }
+
+  return true;
 }
 
 /*
@@ -128,26 +84,31 @@ TBool me_WriteInteger::Freetown::Encode_U4(
   Wrapper for Encode_U4().
 */
 TBool me_WriteInteger::Freetown::Encode_S4(
-  TSint_4 Value,
+  TSint_4 Value_S4,
   TUint_1 OutputLength,
   IOutputStream * OutputStream
 )
 {
+  TUint_4 Value_U4;
+
+  if (Value_S4 < 0)
+  {
+    OutputStream->Write('-');
+    Value_U4 = -Value_S4;
+  }
+  else
+  {
+    OutputStream->Write('+');
+    Value_U4 = Value_S4;
+  }
+
   if (OutputLength == 0)
     return false;
 
-  TBool IsNegative = (Value < 0);
-  TUint_1 SignChar = IsNegative ? '-' : '+';
-
-  if (IsNegative)
-    Value = -Value;
-
-  OutputStream->Write(SignChar);
-
-  return Encode_U4(Value, OutputLength - 1, OutputStream);
+  return Encode_U4(Value_U4, OutputLength - 1, OutputStream);
 }
 
 /*
-  2024-10 # # # #
-  2024-12-19
+  2024 # # # # #
+  2025-09-06
 */
