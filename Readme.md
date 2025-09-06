@@ -8,15 +8,17 @@ Encoding integers to decimal ASCII. AVR. Arduino.
 ## Reference output
 
 ```
-[me_WriteInteger] Okay, we are here.
-* Encode integers
-  TUint_1 012
-  TUint_2 00012
-  TUint_4 0000000012
-  TSint_1 -012
-  TSint_2 -00012
-  TSint_4 -0000000012
-[me_WriteInteger] Done.
+( [me_WriteInteger] test
+TUint_1 255
+TUint_2 65535
+TUint_4 4294967295
+TSint_1 -128
+TSint_1 +127
+TSint_2 -32768
+TSint_2 +32767
+TSint_4 -2147483648
+TSint_4 +2147483647
+) Done
 ```
 
 ## Code
@@ -39,7 +41,7 @@ Lacking of local repo catalogue in Arduino IDE sucks.
 
 
 [Interface]: src/me_WriteInteger.h
-[Implementation]: src/me_WriteInteger.cpp
+[Implementation]: src/
 [Example]: examples/me_WriteInteger/me_WriteInteger.ino
 
 [GetLibs]: https://github.com/martin-eden/Embedded-Framework-GetLibs
