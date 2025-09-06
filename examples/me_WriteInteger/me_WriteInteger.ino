@@ -1,4 +1,4 @@
-// [me_WriteInteger] test/demo
+// [me_WriteInteger] Test
 
 /*
   Author: Martin Eden
@@ -8,81 +8,99 @@
 #include <me_WriteInteger.h>
 
 #include <me_BaseTypes.h>
+#include <me_BaseInterfaces.h>
 #include <me_Console.h>
 #include <me_StreamsCollection.h>
 
-void RunTest()
+void Test_U1(
+  TUint_1 Value,
+  IOutputStream * OutputSream
+)
 {
-  /*
-    Here we're testing integer encoder with output stream
-    set to UART. (So we're just printing numbers.)
-  */
+  Console.Write("TUint_1 ");
+  me_WriteInteger::Encode(Value, OutputSream);
+  Console.EndLine();
+}
 
-  using
-    me_WriteInteger::Encode;
+void Test_U2(
+  TUint_2 Value,
+  IOutputStream * OutputSream
+)
+{
+  Console.Write("TUint_2 ");
+  me_WriteInteger::Encode(Value, OutputSream);
+  Console.EndLine();
+}
 
-  me_StreamsCollection::TUartOutputStream UartOutput;
+void Test_U4(
+  TUint_4 Value,
+  IOutputStream * OutputSream
+)
+{
+  Console.Write("TUint_4 ");
+  me_WriteInteger::Encode(Value, OutputSream);
+  Console.EndLine();
+}
 
-  UartOutput.Init();
+void Test_S1(
+  TSint_1 Value,
+  IOutputStream * OutputSream
+)
+{
+  Console.Write("TSint_1 ");
+  me_WriteInteger::Encode(Value, OutputSream);
+  Console.EndLine();
+}
 
-  Console.Print("* Encode integers");
+void Test_S2(
+  TSint_2 Value,
+  IOutputStream * OutputSream
+)
+{
+  Console.Write("TSint_2 ");
+  me_WriteInteger::Encode(Value, OutputSream);
+  Console.EndLine();
+}
 
-  Console.Indent();
+void Test_S4(
+  TSint_4 Value,
+  IOutputStream * OutputSream
+)
+{
+  Console.Write("TSint_4 ");
+  me_WriteInteger::Encode(Value, OutputSream);
+  Console.EndLine();
+}
 
-  {
-    TUint_1 Value = 12;
+void RunTests()
+{
+  me_StreamsCollection::TUartOutputStream OutputSream;
 
-    Console.Write("TUint_1 ");
-    Encode(Value, &UartOutput);
-    Console.EndLine();
-  }
-  {
-    TUint_2 Value = 12;
+  OutputSream.Init();
 
-    Console.Write("TUint_2 ");
-    Encode(Value, &UartOutput);
-    Console.EndLine();
-  }
-  {
-    TUint_4 Value = 12;
+  Test_U1(TUint_1_Max, &OutputSream);
+  Test_U2(TUint_2_Max, &OutputSream);
+  Test_U4(TUint_4_Max, &OutputSream);
 
-    Console.Write("TUint_4 ");
-    Encode(Value, &UartOutput);
-    Console.EndLine();
-  }
+  Test_S1(TSint_1_Min, &OutputSream);
+  Test_S1(TSint_1_Max, &OutputSream);
 
-  {
-    TSint_1 Value = -12;
+  Test_S2(TSint_2_Min, &OutputSream);
+  Test_S2(TSint_2_Max, &OutputSream);
 
-    Console.Write("TSint_1 ");
-    Encode(Value, &UartOutput);
-    Console.EndLine();
-  }
-  {
-    TSint_2 Value = -12;
-
-    Console.Write("TSint_2 ");
-    Encode(Value, &UartOutput);
-    Console.EndLine();
-  }
-  {
-    TSint_4 Value = -12;
-
-    Console.Write("TSint_4 ");
-    Encode(Value, &UartOutput);
-    Console.EndLine();
-  }
-
-  Console.Unindent();
+  Test_S4(TSint_4_Min, &OutputSream);
+  Test_S4(TSint_4_Max, &OutputSream);
 }
 
 void setup()
 {
   Console.Init();
 
-  Console.Print("[me_WriteInteger] Okay, we are here.");
-  RunTest();
-  Console.Print("[me_WriteInteger] Done.");
+  Console.Print("( [me_WriteInteger] test");
+
+  RunTests();
+
+  Console.Print(") Done");
 }
 
 void loop()
