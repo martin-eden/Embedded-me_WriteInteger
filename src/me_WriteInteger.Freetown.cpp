@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-06
+  Last mod.: 2025-09-11
 */
 
 #include <me_WriteInteger.h>
@@ -18,15 +18,6 @@ TUint_1 DigToAscii(
 )
 {
   return Digit + '0';
-}
-
-// [Internal] Write digit to stream
-void PrintDigit(
-  TUint_1 Digit,
-  IOutputStream * OutputStream
-)
-{
-  OutputStream->Write(DigToAscii(Digit));
 }
 
 /*
@@ -66,7 +57,7 @@ TBool me_WriteInteger::Freetown::Write_U4(
   {
     Digit = Value / ExtractrionBase;
 
-    PrintDigit(Digit, OutputStream);
+    OutputStream->Write(DigToAscii(Digit));
 
     Value = Value - (Digit * ExtractrionBase);
     ExtractrionBase = ExtractrionBase / 10;
