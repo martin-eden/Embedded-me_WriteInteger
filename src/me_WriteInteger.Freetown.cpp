@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-09-11
+  Last mod.: 2025-12-25
 */
 
 #include <me_WriteInteger.h>
@@ -34,33 +34,33 @@ TBool me_WriteInteger::Freetown::Write_U4(
   const TUint_4 MaxDigit = 9;
 
   TUint_1 NumDigitsUsed;
-  TUint_4 ExtractrionBase;
+  TUint_4 ExtractionBase;
   TUint_1 Digit;
 
   if (OutputLength > MaxNumDigits)
     return false;
 
   NumDigitsUsed = 1;
-  ExtractrionBase = 1;
+  ExtractionBase = 1;
 
   while (NumDigitsUsed < OutputLength)
   {
-    ExtractrionBase = ExtractrionBase * 10;
+    ExtractionBase = ExtractionBase * 10;
     NumDigitsUsed = NumDigitsUsed + 1;
   }
 
   // Fail when output length is too short for value
-  if (Value / ExtractrionBase > MaxDigit)
+  if (Value / ExtractionBase > MaxDigit)
     return false;
 
   while (NumDigitsUsed > 0)
   {
-    Digit = Value / ExtractrionBase;
+    Digit = Value / ExtractionBase;
 
     OutputStream->Write(DigToAscii(Digit));
 
-    Value = Value - (Digit * ExtractrionBase);
-    ExtractrionBase = ExtractrionBase / 10;
+    Value = Value - (Digit * ExtractionBase);
+    ExtractionBase = ExtractionBase / 10;
     NumDigitsUsed = NumDigitsUsed - 1;
   }
 
